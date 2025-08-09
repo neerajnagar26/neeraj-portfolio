@@ -107,3 +107,84 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => t.classList.remove('show'), 2000);
   }
   
+
+  // --- reveal on scroll ---
+(function(){
+    const els = [
+      ...document.querySelectorAll('[data-reveal]'),
+      ...document.querySelectorAll('.card'),
+      ...document.querySelectorAll('.edu-item'),
+      ...document.querySelectorAll('.section h2'),
+    ];
+    const seen = new WeakSet();
+    const io = new IntersectionObserver((entries)=>{
+      for(const e of entries){
+        if(e.isIntersecting && !seen.has(e.target)){
+          e.target.classList.add('in'); seen.add(e.target);
+        }
+      }
+    }, { threshold: 0.12 });
+    els.forEach(el=> io.observe(el));
+  })();
+  
+  // --- copy to clipboard for email/phone ---
+  (function(){
+    function toast(text){
+      let t = document.getElementById('toast');
+      if(!t){ t = document.createElement('div'); t.id='toast'; t.className='toast'; document.body.appendChild(t); }
+      t.textContent = text; t.classList.add('show');
+      setTimeout(()=> t.classList.remove('show'), 1800);
+    }
+    document.addEventListener('click', async (e)=>{
+      const btn = e.target.closest('.copy-btn');
+      if(!btn) return;
+      const value = btn.getAttribute('data-copy');
+      try{
+        await navigator.clipboard.writeText(value);
+        toast('Copied: ' + value);
+      }catch{
+        toast('Copy failed');
+      }
+    });
+  })();
+  
+  // --- mailto submit (front-end only) ---
+  (function(){
+    const form = document.getElementById('contactForm');
+    if(!form) return;
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const name = form.elements['name'].value.trim();
+      const email = form.elements['email'].value.trim();
+      const message = form.elements['message'].value.trim();
+      if(!name || !email || !message){ return; }
+      const subject = `Portfolio message from ${name}`;
+      const body = `From: ${name} <${email}>\n\n${message}`;
+      window.location.href = `mailto:nnagar@uwaterloo.ca?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      // tiny confirmation
+      let t = document.getElementById('toast');
+      if(!t){ t = document.createElement('div'); t.id='toast'; t.className='toast'; document.body.appendChild(t); }
+      t.textContent = 'Opening your email app…'; t.classList.add('show');
+      setTimeout(()=> t.classList.remove('show'), 1600);
+      form.reset();
+    });
+  })();
+  
+  // --- back to top ---
+  (function(){
+    const btn = document.getElementById('toTop');
+    if(!btn) return;
+    const showAt = 480;
+    window.addEventListener('scroll', ()=>{
+      if(window.scrollY > showAt) btn.classList.add('show'); else btn.classList.remove('show');
+    });
+    btn.addEventListener('click', ()=> window.scrollTo({ top: 0, behavior: 'smooth' }));
+  })();
+  
+  // --- keyboard shortcut: 't' toggles theme ---
+  document.addEventListener('keydown', (e)=>{
+    if(e.key.toLowerCase() === 't'){
+      document.getElementById('themeToggle')?.click();
+    }
+  });
+  

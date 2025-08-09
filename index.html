@@ -28,8 +28,8 @@
       <li><a href="#contact">Contact</a></li>
     </ul>
 
-    <!-- Top-right now ONLY has the theme toggle -->
     <div class="top-actions">
+      <!-- Socials removed from top-right per your request -->
       <button id="themeToggle" class="icon-btn is-pill" aria-label="Switch theme" aria-pressed="false" title="Toggle light/dark">◐</button>
     </div>
   </nav>
@@ -38,17 +38,8 @@
 <section class="hero" style="--hero:url('assets/hero.jpg')">
   <div class="overlay"></div>
   <div class="container hero-inner">
-    <!-- Avatar tries JPG → JPEG → PNG → SVG automatically -->
+    <!-- Use hi-res images with srcset to stay sharp when large -->
     <img id="avatar" class="avatar" src="assets/profile.jpg" sizes="(min-width: 900px) 280px, 40vw" alt="Neeraj Nagar" />
-    <!-- <img
-    id="avatar"
-    class="avatar"
-    src="assets/profile.jpg"
-    srcset="assets/profile.jpg 1x, assets/profile.jpg 2x"
-    sizes="(min-width: 900px) 280px, 40vw"
-    alt="Neeraj Nagar"
-    /> -->
-
     <div class="hero-copy">
       <h1>Neeraj Nagar</h1>
       <p class="tagline">Software Engineer · MASc @ University of Waterloo · ex-Samsung · 4 patents</p>
@@ -95,9 +86,8 @@
   <div class="container">
     <h2>Experience</h2>
 
-    <!-- stack-lg = generous gaps between cards -->
     <div class="stack-lg">
-      <article class="card">
+      <article class="card hover-elevate">
         <header class="card-head">
           <div class="head-left">
             <img class="org-logo" src="assets/logo-uwaterloo.png" alt="University of Waterloo logo" />
@@ -112,7 +102,7 @@
         </ul>
       </article>
 
-      <article class="card">
+      <article class="card hover-elevate">
         <header class="card-head">
           <div class="head-left">
             <img class="org-logo" src="assets/logo-uwaterloo.png" alt="University of Waterloo logo" />
@@ -123,7 +113,7 @@
         <p>Research-focused master's under Prof. Sebastian Fischmeister; coursework in algorithms, AI/ML, data modeling, and intelligent systems.</p>
       </article>
 
-      <article class="card">
+      <article class="card hover-elevate">
         <header class="card-head">
           <div class="head-left">
             <img class="org-logo" src="assets/logo-samsung-research.png" alt="Samsung Research logo" />
@@ -140,7 +130,7 @@
         </ul>
       </article>
 
-      <article class="card">
+      <article class="card hover-elevate">
         <header class="card-head">
           <div class="head-left">
             <img class="org-logo" src="assets/logo-samsung-research.png" alt="Samsung Research logo" />
@@ -158,7 +148,7 @@
   <div class="container">
     <h2>Education</h2>
     <div class="stack-md">
-      <div class="edu-item">
+      <div class="edu-item card hover-elevate">
         <header class="card-head">
           <div class="head-left">
             <img class="org-logo" src="assets/logo-uwaterloo.png" alt="University of Waterloo logo" />
@@ -169,7 +159,7 @@
         <p>Scholarships: Graduate Research Studentship ($41,000), International Master’s Award of Excellence ($12,500). Courses: Algorithms, Software Engineering Methods, Data &amp; Knowledge Modeling, AI, Intelligent Systems, Machine Learning.</p>
       </div>
 
-      <div class="edu-item">
+      <div class="edu-item card hover-elevate">
         <header class="card-head">
           <div class="head-left">
             <img class="org-logo" src="assets/logo-iitbhu.png" alt="IIT (BHU) logo" />
@@ -186,7 +176,7 @@
   <div class="container">
     <h2>Selected Projects</h2>
     <div class="grid-2">
-      <article class="card">
+      <article class="card hover-elevate">
         <header><h3>Autonomous Vehicle with Image Processing</h3></header>
         <p>Python, OpenCV, Arduino, Dijkstra’s Algorithm, Color Segmentation.</p>
         <ul>
@@ -194,7 +184,7 @@
           <li>Reduced route computation time by 20%.</li>
         </ul>
       </article>
-      <article class="card">
+      <article class="card hover-elevate">
         <header><h3>Self-Driving Car</h3></header>
         <p>Arduino, Python, OpenCV, Ultrasonic Sensors, Lane-detection algorithms.</p>
         <ul>
@@ -209,11 +199,11 @@
   <div class="container">
     <h2>Publications</h2>
     <div class="stack-lg">
-      <article class="card">
+      <article class="card hover-elevate">
         <header><h3>Pose Estimation for Enhancing User Selfie Experience</h3><span>IJETRM · Jan 2023</span></header>
         <p>Method to improve selfies by retrieving look-alike celebrity images to guide a GAN-based transformation via an intermediate image map.</p>
       </article>
-      <article class="card">
+      <article class="card hover-elevate">
         <header><h3>Enhanced Adaptive Equalization Based on User Behavior Using Clustering</h3><span>IRAJ Int'l Conf · Sep 2022</span></header>
         <p>Personalizes audio equalizer settings by learning user preferences; uses clustering to suggest optimal settings and playlists.</p>
       </article>
@@ -235,7 +225,7 @@
 
 <section id="awards" class="section alt">
   <div class="container">
-    <h2>Honors &amp; Awards</h2>
+    <h2>Awards</h2>
     <ul class="awards">
       <li>International Master’s Award of Excellence — $12,500 (Nov 2023)</li>
       <li>Graduate Research Studentship — $41,000 (Sep 2023)</li>
@@ -243,40 +233,30 @@
   </div>
 </section>
 
-<!-- Contact -->
 <section id="contact" class="section">
-    <div class="container">
-      <h2>Contact</h2>
-      <p>Want to chat about a role or project? Reach out directly or use the form.</p>
-      <div class="grid-2">
-        <div class="card">
-          <p><strong>Email:</strong> <a href="mailto:nnagar@uwaterloo.ca">nnagar@uwaterloo.ca</a></p>
-          <p><strong>Phone:</strong> <a href="tel:+14378082696">(+1) 437-808-2696</a></p>
-          <p><strong>GitHub:</strong> <a href="https://github.com/neerajnagar26" target="_blank" rel="noopener">github.com/neerajnagar26</a></p>
-          <p><strong>LeetCode:</strong> <a href="https://leetcode.com/u/neerajnagar/" target="_blank" rel="noopener">leetcode.com/u/neerajnagar/</a></p>
-          <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/neerajnagar26/" target="_blank" rel="noopener">linkedin.com/in/neerajnagar26</a></p>
-        </div>
-  
-        <!-- Front-end only form (no backend) -->
-        <form id="contactForm" class="card form" novalidate>
-          <label>Name<input type="text" name="name" required></label>
-          <label>Email<input type="email" name="email" required></label>
-          <label>Message<textarea name="message" rows="5" required></textarea></label>
-  
-          <button class="btn" type="submit" id="sendBtn">Send</button>
-          <p id="formMsg" class="hint" role="status" aria-live="polite"></p>
-  
-          <noscript>
-            <p class="hint">JavaScript is required to send via email. Or email me at
-              <a href="mailto:nnagar@uwaterloo.ca">nnagar@uwaterloo.ca</a>.
-            </p>
-          </noscript>
-        </form>
+  <div class="container">
+    <h2>Contact</h2>
+    <p>Want to chat about a role or project? Reach out directly or use the form.</p>
+    <div class="grid-2">
+      <div class="card hover-elevate">
+        <p><strong>Email:</strong> <a href="mailto:nnagar@uwaterloo.ca">nnagar@uwaterloo.ca</a></p>
+        <p><strong>Phone:</strong> <a href="tel:+14378082696">(+1) 437-808-2696</a></p>
+        <p><strong>GitHub:</strong> <a href="https://github.com/neerajnagar26" target="_blank" rel="noopener">github.com/neerajnagar26</a></p>
+        <p><strong>LeetCode:</strong> <a href="https://leetcode.com/u/neerajnagar/" target="_blank" rel="noopener">leetcode.com/u/neerajnagar/</a></p>
+        <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/neerajnagar26/" target="_blank" rel="noopener">linkedin.com/in/neerajnagar26</a></p>
       </div>
-    </div>
-  </section>
-  
 
+      <!-- Front-end only form (mailto flow) -->
+      <form id="contactForm" class="card form hover-elevate" novalidate>
+        <label>Name<input type="text" name="name" required></label>
+        <label>Email<input type="email" name="email" required></label>
+        <label>Message<textarea name="message" rows="5" required></textarea></label>
+        <button class="btn" data-arrow type="submit" id="sendBtn">Send</button>
+        <p id="formMsg" class="hint" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
 </main>
 
 <footer class="site-footer">
@@ -285,6 +265,7 @@
   </div>
 </footer>
 
+<!-- Keep your existing script.js for theme toggle, mailto form, etc. -->
 <script src="script.js"></script>
 </body>
 </html>
