@@ -1,0 +1,173 @@
+/* Pure black / pure white themes */
+:root{
+    --bg:#000000;
+    --bg-alt:#0a0a0a;
+    --text:#e5e5e5;
+    --muted:#9ca3af;
+    --card:#0a0a0a;
+    --border:rgba(255,255,255,0.12);
+    --btn-bg:#ffffff;
+    --btn-text:#000000;
+    --max:1100px;
+    --radius:16px;
+    --shadow: 0 10px 30px rgba(0,0,0,.35);
+  }
+  
+  html[data-theme="light"]{
+    --bg:#ffffff;
+    --bg-alt:#f7f7f7;
+    --text:#111111;
+    --muted:#6b7280;
+    --card:#ffffff;
+    --border:rgba(17,17,17,0.12);
+    --btn-bg:#111111;
+    --btn-text:#ffffff;
+  }
+  
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    color:var(--text);
+    background:var(--bg);
+    line-height:1.6;
+  }
+  
+  .container{max-width:var(--max); margin:0 auto; padding:0 20px}
+  
+  /* ---------- spacing utilities ---------- */
+  .stack-sm > * + *{ margin-top:14px }
+  .stack-md > * + *{ margin-top:20px }
+  .stack-lg > * + *{ margin-top:28px }  /* generous gap like your screenshot */
+  
+  /* Header / nav */
+  .site-header{
+    position:sticky; top:0; z-index:20;
+    backdrop-filter:saturate(180%) blur(10px);
+    background:color-mix(in hsl, var(--bg) 85%, transparent);
+    border-bottom:1px solid var(--border);
+  }
+  .site-header nav{display:flex; align-items:center; justify-content:space-between; gap:16px; height:64px}
+  .brand{color:var(--text); font-weight:800; text-decoration:none; letter-spacing:.5px; font-size:20px}
+  .menu{display:none; background:none; color:var(--text); font-size:24px; border:0}
+  .nav{display:flex; list-style:none; gap:20px; margin:0; padding:0}
+  .nav a{color:var(--muted); text-decoration:none; padding:10px 6px; border-radius:8px}
+  .nav a:hover{color:var(--text); background:color-mix(in hsl, var(--text) 10%, transparent)}
+  .top-actions{display:flex; gap:8px; align-items:center}
+  
+  .icon-btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    height:34px; padding:0 12px; border-radius:8px;
+    border:1px solid var(--border);
+    background:transparent; color:var(--text);
+    text-decoration:none; font-weight:600; font-size:14px; cursor:pointer;
+  }
+  .icon-btn.is-pill{border-radius:999px}
+  .icon-btn:hover{background:color-mix(in hsl, var(--text) 12%, transparent)}
+  
+  @media (max-width:900px){
+    .nav{display:none}
+    .menu{display:block}
+  }
+  
+  /* Hero */
+  .hero{
+    position:relative; min-height:58vh; display:flex; align-items:center;
+    background:var(--bg-alt); background-image: var(--hero);
+    background-size:cover; background-position:center;
+  }
+  .hero .overlay{position:absolute; inset:0; background:color-mix(in hsl, var(--bg) 55%, transparent)}
+  .hero-inner{position:relative; display:flex; align-items:center; gap:28px; padding:80px 0}
+  .avatar{
+    /* Bigger, responsive avatar */
+    width: clamp(200px, 28vw, 300px);
+    height: clamp(200px, 28vw, 300px);
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    box-shadow: var(--shadow);
+    object-fit: cover;
+    background: var(--bg);
+  }
+  
+  .hero h1{margin:0 0 6px; font-size:56px; line-height:1.05}
+  .tagline{margin:0 0 18px; color:var(--muted); font-size:18px}
+  .actions{display:flex; flex-wrap:wrap; gap:10px}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--btn-bg); color:var(--btn-text);
+    text-decoration:none; padding:12px 16px; border-radius:12px; font-weight:700; border:0;
+  }
+  .btn.ghost{
+    background:transparent; color:var(--text); border:1px solid var(--border);
+  }
+  .btn-icon{height:16px; width:auto}
+  
+  /* Sections */
+  .section{padding:64px 0; background:var(--bg)}
+  .section.alt{background:var(--bg-alt)}
+  h2{font-size:28px; margin:0 0 20px}
+  
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:22px}
+  @media (max-width:900px){
+    .grid-2{grid-template-columns:1fr}
+  }
+  
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    padding:22px; border-radius:16px;
+    box-shadow:0 8px 24px color-mix(in hsl, #000 35%, transparent);
+  }
+  .card-head{display:flex; justify-content:space-between; align-items:center; gap:12px}
+  .head-left{display:flex; align-items:center; gap:12px}
+  .card h3{margin:0; font-size:20px}
+  
+  .org-logo{height:24px; width:auto}
+  
+  .badges{display:flex; flex-wrap:wrap; gap:10px; padding:0; margin:12px 0 0; list-style:none}
+  .badges li{
+    background:color-mix(in hsl, var(--text) 8%, transparent);
+    color:var(--text); border:1px solid var(--border);
+    padding:6px 10px; border-radius:999px; font-size:14px
+  }
+  
+  .details{display:grid; gap:10px; align-content:start}
+  .details div{background:var(--card); border:1px solid var(--border); padding:14px; border-radius:12px}
+  .details span{display:block; font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em}
+  .details a{color:var(--text)}
+  
+  .edu{display:grid; gap:16px}
+  .edu-item{background:var(--card); border:1px solid var(--border); padding:18px; border-radius:12px}
+  
+  .patents, .awards{line-height:1.9}
+  
+  .form label{display:block; font-weight:600; margin-bottom:10px}
+  .form input, .form textarea{
+    width:100%; padding:10px 12px; border-radius:10px;
+    border:1px solid var(--border); background:var(--bg); color:var(--text); margin-top:6px
+  }
+  .form .hint{font-size:12px; color:var(--muted)}
+  
+  .site-footer{border-top:1px solid var(--border); padding:24px 0; text-align:center; color:var(--muted)}
+
+
+/* Tiny toast for UX */
+.toast{
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--card);
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .2s ease, opacity .2s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,.3);
+    font-weight: 600;
+  }
+  .toast.show{ opacity: 1; transform: translateX(-50%) translateY(0); }
+  
