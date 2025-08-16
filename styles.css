@@ -920,8 +920,9 @@
   
   /* Stack hero on small screens; center content */
   @media (max-width: 900px){
-    .container{ padding: 0 16px; }
+    .container{ padding: 0 16px; max-width: 100%;}
     .hero-inner{
+      max-width: 100%;
       padding: 50px 0;
       flex-direction: column;
       text-align: center;
