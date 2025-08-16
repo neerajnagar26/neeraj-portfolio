@@ -286,19 +286,23 @@
   
   /* Enhanced Skills Section */
   .skills-section {
-    margin-top: 24px;
+    margin-top: 32px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
   }
   
   .skills-section h3 {
     font-size: 20px;
-    margin: 0 0 16px 0;
+    margin: 0 0 20px 0;
     color: var(--accent);
+    text-align: center;
   }
   
   .skills-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
   }
   
   .skill-category h4 {
@@ -324,20 +328,86 @@
     font-weight: 500;
     transition: all .3s ease;
     cursor: default;
+    max-width: fit-content;
+    word-break: break-word;
   }
   
   .skill-tag:hover {
     background: var(--accent);
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px color-mix(in hsl, var(--accent) 30%, transparent);
+    box-shadow: 0 4px 12px color-mix(in hsl, var(--accent) 40%, transparent);
+  }
+  
+  /* Certifications section */
+  .certifications-section {
+    margin-top: 32px;
+    text-align: center;
+  }
+  
+  .certifications-section h4 {
+    font-size: 18px;
+    margin: 0 0 16px 0;
+    color: var(--text);
+    font-weight: 600;
+  }
+  
+  .cert-hint {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 400;
+    font-style: italic;
+  }
+  
+  .cert-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+  }
+  
+  .cert-tag {
+    background: color-mix(in hsl, #10b981 10%, transparent);
+    color: #10b981;
+    border: 1px solid color-mix(in hsl, #10b981 30%, transparent);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all .3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+  }
+  
+  .cert-tag:hover {
+    background: #10b981;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px color-mix(in hsl, #10b981 30%, transparent);
+  }
+  
+  .cert-tag:focus {
+    outline: 2px solid #10b981;
+    outline-offset: 2px;
   }
   
   /* Responsive skills grid */
   @media (max-width: 768px) {
     .skills-grid {
       grid-template-columns: 1fr;
-      gap: 16px;
+      gap: 20px;
+    }
+    
+    .skill-tag {
+      padding: 5px 10px;
+      font-size: 12px;
+      border-radius: 18px;
+    }
+    
+    .cert-tag {
+      padding: 6px 12px;
+      font-size: 12px;
     }
   }
   
@@ -373,6 +443,11 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 16px color-mix(in hsl, var(--accent) 20%, transparent);
   }
+  
+  .details span{display:block; font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em}
+  .details a{color:var(--text); transition: color .3s ease; word-break: break-all; overflow-wrap: break-word;}
+  .details a:hover { color: var(--accent); }
+  .details strong { word-break: break-word; overflow-wrap: break-word; }
   
   /* Enhanced form styling */
   .form {
@@ -555,6 +630,18 @@
   .card-head{display:flex; justify-content:space-between; align-items:center; gap:12px}
   .head-left{display:flex; align-items:center; gap:12px}
   .card h3{margin:0; font-size:20px; color: var(--accent)}
+  
+  /* Date styling */
+  .date {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+    padding: 4px 8px;
+    background: color-mix(in hsl, var(--accent) 8%, transparent);
+    border-radius: 6px;
+    border: 1px solid color-mix(in hsl, var(--accent) 20%, transparent);
+  }
   
   /* Logos */
   .org-logo{height:24px; width:auto; filter: grayscale(20%); opacity:.95; transition: all .3s ease}
@@ -1062,46 +1149,12 @@
     line-height: 1.5;
   }
   
-  /* Certifications section */
-  .certifications-section {
-    margin-top: 24px;
-  }
-  
-  .certifications-section h4 {
-    font-size: 16px;
-    margin: 0 0 12px 0;
-    color: var(--text);
-    font-weight: 600;
-  }
-  
-  .cert-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  
-  .cert-tag {
-    background: color-mix(in hsl, #10b981 10%, transparent);
-    color: #10b981;
-    border: 1px solid color-mix(in hsl, #10b981 30%, transparent);
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 500;
-    transition: all .3s ease;
-    cursor: default;
-  }
-  
-  .cert-tag:hover {
-    background: #10b981;
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px color-mix(in hsl, #10b981 30%, transparent);
-  }
-  
   /* Patents section */
   .patents-section {
     margin-top: 32px;
+    margin-left: 16px;
+    padding-left: 16px;
+    border-left: 2px solid color-mix(in hsl, var(--accent) 20%, transparent);
   }
   
   .patents-section h3 {
@@ -1175,6 +1228,227 @@
     
     .stack-md > * + * { 
       margin-top: 20px; 
+    }
+    
+    /* Mobile-specific improvements */
+    .hero h1 {
+      font-size: clamp(32px, 8vw, 48px);
+      line-height: 1.2;
+      padding: 8px 0;
+    }
+    
+    .tagline {
+      font-size: clamp(16px, 4vw, 18px);
+      margin: 0 0 16px 0;
+    }
+    
+    .avatar {
+      width: 140px;
+      height: 140px;
+      margin-bottom: 16px;
+    }
+    
+    /* Better About section visibility on mobile */
+    .about-section {
+      padding: 20px 0;
+    }
+    
+    .about-section h2 {
+      font-size: 24px;
+      margin: 0 0 16px 0;
+    }
+    
+    .about-section p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0 0 20px 0;
+    }
+    
+    /* Mobile-optimized skills section */
+    .skills-section {
+      margin-top: 20px;
+    }
+    
+    .skills-section h3 {
+      font-size: 18px;
+      margin: 0 0 12px 0;
+    }
+    
+    .skills-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    
+    .skill-category h4 {
+      font-size: 15px;
+      margin: 0 0 8px 0;
+    }
+    
+    .skill-tag {
+      padding: 4px 8px;
+      font-size: 12px;
+      border-radius: 16px;
+    }
+    
+    .cert-tag {
+      padding: 4px 8px;
+      font-size: 12px;
+      border-radius: 16px;
+    }
+    
+    /* Mobile-optimized contact section */
+    .contact-section {
+      padding: 20px 0;
+    }
+    
+    .contact-section h2 {
+      font-size: 24px;
+      margin: 0 0 16px 0;
+    }
+    
+    .contact-section .grid-2 {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    
+    .contact-section .card {
+      padding: 16px;
+    }
+    
+    .contact-section p {
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 8px 0;
+      word-break: break-word;
+    }
+    
+    .contact-section a {
+      font-size: 14px;
+      word-break: break-all;
+    }
+    
+    /* Mobile-optimized details sidebar */
+    .details {
+      gap: 12px;
+    }
+    
+    .details div {
+      padding: 12px;
+    }
+    
+    .details span {
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
+    
+    .details strong, .details a {
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    
+    /* Mobile-optimized form */
+    .form input, .form textarea {
+      padding: 12px;
+      font-size: 16px;
+    }
+    
+    .form label {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    
+    /* Mobile-optimized projects */
+    .project-tech {
+      font-size: 13px;
+      padding: 6px 10px;
+    }
+    
+    .project-description {
+      font-size: 14px;
+      margin: 0 0 12px 0;
+    }
+    
+    .project-links {
+      gap: 8px;
+      margin-top: 12px;
+    }
+    
+    .project-link {
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+    
+    /* Mobile-optimized experience */
+    .experience-tech {
+      font-size: 13px;
+      padding: 6px 10px;
+    }
+    
+    /* Mobile-optimized publications */
+    .patents-section h3 {
+      font-size: 18px;
+      margin: 0 0 12px 0;
+    }
+    
+    .patents-section .patents li {
+      padding: 10px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    
+    .patents-section .patents li::before {
+      left: -20px;
+      font-size: 14px;
+    }
+    
+    /* Mobile-optimized back to top button */
+    .back-to-top {
+      bottom: 20px;
+      right: 20px;
+      width: 45px;
+      height: 45px;
+      font-size: 16px;
+    }
+  }
+  
+  /* Extra small mobile devices */
+  @media (max-width: 480px) {
+    .container {
+      padding: 0 12px;
+    }
+    
+    .hero h1 {
+      font-size: 28px;
+    }
+    
+    .tagline {
+      font-size: 15px;
+    }
+    
+    .avatar {
+      width: 120px;
+      height: 120px;
+    }
+    
+    .section {
+      padding: 32px 0;
+    }
+    
+    .card {
+      padding: 14px;
+    }
+    
+    .skill-tag {
+      padding: 3px 6px;
+      font-size: 11px;
+    }
+    
+    .contact-section p {
+      font-size: 13px;
+    }
+    
+    .contact-section a {
+      font-size: 13px;
     }
   }
   
