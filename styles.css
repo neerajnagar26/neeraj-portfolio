@@ -922,10 +922,10 @@
   @media (max-width: 900px){
     .container{ padding: 0 16px; }
     .hero-inner{
-      padding: 56px 0;
+      padding: 50px 0;
       flex-direction: column;
       text-align: center;
-      gap: 18px;
+      gap: 8px;
     }
     .actions{ justify-content: center; }
   }
@@ -982,10 +982,13 @@
     background: linear-gradient(90deg, var(--accent) 0%, var(--accent-hover) 100%);
     border-radius: 2px;
   }
+  .hero + .section {
+    margin-top: -80px; /* pulls About closer to Hero */
+  }
   
   /* Enhanced typography and spacing */
   .section {
-    padding: 80px 0;
+    padding: 50px 0;
     opacity: 1;
     transform: translateY(0);
     transition: all .8s cubic-bezier(0.4, 0, 0.2, 1);
