@@ -2,9 +2,9 @@
 function toggleMenu(){
     const nav = document.getElementById('nav');
     const btn = document.querySelector('.menu');
-    const isOpen = nav.style.display === 'flex';
-    nav.style.display = isOpen ? 'none' : 'flex';
-    btn.setAttribute('aria-expanded', String(!isOpen));
+    if(!nav || !btn) return;
+    const isOpen = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(isOpen));
   }
   
   // Theme handling (black or white only) with persistence
@@ -180,7 +180,7 @@ function toggleMenu(){
           
           // Close mobile menu if open
           const nav = document.getElementById('nav');
-          if (nav.style.display === 'flex') {
+          if (nav.classList.contains('open')) {
             toggleMenu();
           }
         }
@@ -304,7 +304,7 @@ function toggleMenu(){
     // 'Escape' closes mobile menu
     if(e.key === 'Escape'){
       const nav = document.getElementById('nav');
-      if(nav.style.display === 'flex'){
+      if(nav.classList.contains('open')){
         toggleMenu();
       }
     }

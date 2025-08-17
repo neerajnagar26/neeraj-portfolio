@@ -586,6 +586,7 @@
   @media (max-width:900px){
     .grid-2{grid-template-columns:1fr}
     .nav{display:none}
+    .nav.open{display:flex}
     .menu{display:block}
   }
   
@@ -850,6 +851,10 @@
       padding: 12px 16px;
       animation: slideDown 0.3s ease-out;
       backdrop-filter: saturate(180%) blur(20px);
+    }
+
+    .nav.open {
+      display: flex;
     }
     
     @keyframes slideDown {
