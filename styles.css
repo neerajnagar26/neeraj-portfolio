@@ -1633,3 +1633,18 @@
     background: color-mix(in hsl, var(--accent) 30%, transparent);
     color: var(--text);
   }
+
+
+  /* 1) Make the contact grid a single centered column */
+.contact-section .grid-2{
+  display: grid;
+  grid-template-columns: 1fr;   /* one column */
+  justify-items: center;        /* center the child horizontally */
+}
+
+/* 2) Keep the form nicely sized and centered */
+#contactForm{
+  width: 100%;
+  max-width: 600px;             /* you already set this inline; moving to CSS is cleaner */
+  margin: 0 auto;
+}
