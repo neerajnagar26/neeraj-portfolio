@@ -194,7 +194,7 @@
   }
   
   .hero .overlay{position:absolute; inset:0; background:color-mix(in hsl, var(--bg) 55%, transparent); z-index: 2}
-  .hero-inner{position:relative; display:flex; align-items:center; gap:28px; padding:80px 0; z-index: 3}
+  .hero-inner{position:relative; display:flex; align-items:center; gap:28px; padding:20px 0; z-index: 3}
   
   .avatar{
     width: clamp(220px, 28vw, 300px);
@@ -487,6 +487,21 @@
       font-size: 12px;
     }
   }
+
+  /* Make About details cards more compact */
+  .about-section .details div {
+    padding: 10px 12px;   /* reduce inner spacing */
+    font-size: 14px;      /* shrink overall text */
+  }
+
+  .about-section .details strong {
+    font-size: 15px;      /* shrink bold text */
+  }
+
+  .about-section .details span {
+    font-size: 11px;      /* smaller label text */
+  }
+
   
   /* Enhanced details box */
   .details div{
@@ -1107,7 +1122,8 @@
     border-radius: 2px;
   }
   .hero + .section {
-    margin-top: -80px; /* pulls About closer to Hero */
+    margin-top: 0px; /* pulls About closer to Hero */
+    padding-top: 20px; 
   }
   
   /* Enhanced typography and spacing */
@@ -1408,6 +1424,22 @@
       line-height: 1.6;
       margin: 0 0 20px 0;
     }
+
+    /* Align the two columns in About section */
+    .about-section .grid-2 {
+      display: grid;          /* ensures it behaves like a grid */
+      grid-template-columns: 1fr 1fr; /* keep 2 equal columns */
+      align-items: start;     /* align both columns at the top */
+      gap: 2rem;              /* spacing between columns */
+    }
+
+    @media (max-width: 768px) {
+      .about-section .grid-2 {
+        grid-template-columns: 1fr;  /* stack into a single column */
+      }
+    }
+
+
     
     /* Mobile-optimized skills section */
     .skills-section {
@@ -1634,6 +1666,33 @@
     color: var(--text);
   }
 
+  /* Reduce the top spacing only for the very first section after the hero */
+  .hero + main > .section:first-of-type {
+    margin-top: 0;
+    padding-top: 0px; /* adjust this value to your liking */
+  }
+
+.edu-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.edu-university {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);  /* blue */
+  line-height: 1.3;
+}
+
+.edu-degree {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  margin-top: 2px;
+}
+
+
+/* ========= Contact form improvements ========= */
 
   /* 1) Make the contact grid a single centered column */
 .contact-section .grid-2{
@@ -1648,3 +1707,5 @@
   max-width: 600px;             /* you already set this inline; moving to CSS is cleaner */
   margin: 0 auto;
 }
+
+
