@@ -42,7 +42,7 @@ function toggleMenu(){
     const btn = document.getElementById('themeToggle');
     const saved = localStorage.getItem('theme');
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initial = saved || (prefersDark ? 'dark' : 'light');
+    const initial = saved || 'light';
   
     function setTheme(mode){
       root.setAttribute('data-theme', mode);
