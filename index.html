@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -15,7 +15,10 @@
   <nav class="container">
     <a class="brand" href="#top" aria-label="Home">NN</a>
 
-    <button class="menu" aria-label="Open menu" aria-expanded="false" aria-controls="nav" onclick="toggleMenu()">☰</button>
+    <button class="menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+      <span class="menu-icon" aria-hidden="true">☰</span>
+      <span class="visually-hidden menu-label">Open menu</span>
+    </button>
 
     <ul id="nav" class="nav">
       <li><a href="#about">About</a></li>
@@ -140,7 +143,7 @@
           <a href="https://drive.google.com/file/d/1xrkscSzXK0GifQtSGOWAD4fFoVusZadB/view?usp=drive_link" target="_blank" rel="noopener" class="cert-tag">Deep Learning: Image Recognition</a>
           <a href="https://drive.google.com/file/d/1c8I8cuGWIvF2fXKa7MtJOgc2x77VUWAq/view?usp=drive_link" target="_blank" rel="noopener" class="cert-tag">Deep Learning: Face Recognition</a>
           <a href="https://drive.google.com/file/d/1hwcCDjI1F-LA8z2e2eyyISqgHaop0Fga/view?usp=drive_link" target="_blank" rel="noopener" class="cert-tag">Neural Networks & Deep Learning</a>
-          <a href="https://drive.google.com/file/d/1hwcCDjI1F-LA8z2e2eyyISqgHaop0Fga/view?usp=drive_link" target="_blank" rel="noopener" class="cert-tag">Data Structures (UCSD)</a>
+          <span class="cert-tag is-disabled" aria-disabled="true">Data Structures (UCSD) — link coming soon</span>
           <a href="https://drive.google.com/file/d/1hk1wWyisPO9mUbdobBfIbw70c-l5r851/view?usp=drive_link" target="_blank" rel="noopener" class="cert-tag">Python Programming</a>
         </div>
       </div>
@@ -261,8 +264,8 @@
           <li>Developed scalable solution for large time-series datasets</li>
         </ul>
         <div class="project-links">
-          <a href="#" class="project-link">View Details</a>
-          <a href="#" class="project-link">Source Code</a>
+          <span class="project-link is-disabled" aria-disabled="true">View Details (Coming soon)</span>
+          <span class="project-link is-disabled" aria-disabled="true">Source Code (Coming soon)</span>
         </div>
       </article>
       
@@ -277,8 +280,8 @@
           <li>Optimized model for emergency response applications</li>
         </ul>
         <div class="project-links">
-          <a href="#" class="project-link">View Demo</a>
-          <a href="#" class="project-link">Source Code</a>
+          <span class="project-link is-disabled" aria-disabled="true">View Demo (Coming soon)</span>
+          <span class="project-link is-disabled" aria-disabled="true">Source Code (Coming soon)</span>
         </div>
       </article>
       
@@ -293,8 +296,8 @@
           <li>Applied color segmentation techniques for obstacle detection</li>
         </ul>
         <div class="project-links">
-          <a href="#" class="project-link">View Demo</a>
-          <a href="#" class="project-link">Source Code</a>
+          <span class="project-link is-disabled" aria-disabled="true">View Demo (Coming soon)</span>
+          <span class="project-link is-disabled" aria-disabled="true">Source Code (Coming soon)</span>
         </div>
       </article>
       
@@ -309,8 +312,8 @@
           <li>Applied transfer learning techniques for improved results</li>
         </ul>
         <div class="project-links">
-          <a href="#" class="project-link">Research Paper</a>
-          <a href="#" class="project-link">Project Details</a>
+          <span class="project-link is-disabled" aria-disabled="true">Research Paper (Coming soon)</span>
+          <span class="project-link is-disabled" aria-disabled="true">Project Details (Coming soon)</span>
         </div>
       </article>
     </div>
@@ -368,12 +371,24 @@
       </div>
 
       <!-- Front-end only form (mailto flow) -->
-      <form id="contactForm" class="card form hover-elevate" novalidate>
-        <label>Name<input type="text" name="name" required></label>
-        <label>Email<input type="email" name="email" required></label>
-        <label>Message<textarea name="message" rows="5" required></textarea></label>
+      <form id="contactForm" class="card form hover-elevate">
+        <div class="form-field">
+          <label for="name">Name</label>
+          <input type="text" name="name" id="name" required autocomplete="name" aria-describedby="name-error">
+          <p class="field-error" id="name-error" aria-live="polite"></p>
+        </div>
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" required autocomplete="email" aria-describedby="email-error">
+          <p class="field-error" id="email-error" aria-live="polite"></p>
+        </div>
+        <div class="form-field">
+          <label for="message">Message</label>
+          <textarea name="message" id="message" rows="5" required aria-describedby="message-error"></textarea>
+          <p class="field-error" id="message-error" aria-live="polite"></p>
+        </div>
         <button class="btn" data-arrow type="submit" id="sendBtn">Send</button>
-        <p id="formMsg" class="hint" role="status" aria-live="polite"></p>
+        <p id="formMsg" class="hint form-status" role="status" aria-live="polite"></p>
       </form>
     </div>
   </div>

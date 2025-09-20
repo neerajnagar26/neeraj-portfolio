@@ -4,7 +4,36 @@ function toggleMenu(){
     const btn = document.querySelector('.menu');
     if(!nav || !btn) return;
     const isOpen = nav.classList.toggle('open');
+    const icon = btn.querySelector('.menu-icon');
+    const label = btn.querySelector('.menu-label');
     btn.setAttribute('aria-expanded', String(isOpen));
+    btn.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+    btn.classList.toggle('is-open', isOpen);
+    if(icon){
+      icon.textContent = isOpen ? '✕' : '☰';
+    } else {
+      btn.textContent = isOpen ? '✕' : '☰';
+    }
+    if(label){
+      label.textContent = isOpen ? 'Close menu' : 'Open menu';
+    }
+  }
+
+  const menuButton = document.querySelector('.menu');
+  if(menuButton){
+    menuButton.addEventListener('click', toggleMenu);
+  }
+
+  const siteHeader = document.querySelector('.site-header');
+  const backToTopButton = document.getElementById('backToTop');
+
+  if(backToTopButton){
+    backToTopButton.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
   }
   
   // Theme handling (black or white only) with persistence
@@ -61,27 +90,6 @@ function toggleMenu(){
     if(y) y.textContent = new Date().getFullYear();
   })();
 
-  // Header scroll effects
-  (function() {
-    const header = document.querySelector('.site-header');
-    let lastScrollY = window.scrollY;
-    
-    function updateHeader() {
-      const currentScrollY = window.scrollY;
-      
-      if (currentScrollY > 100) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
-      
-      lastScrollY = currentScrollY;
-    }
-    
-    window.addEventListener('scroll', updateHeader, { passive: true });
-    updateHeader(); // Initial call
-  })();
-
   // Enhanced scroll reveal animations
   (function(){
     const els = [
@@ -132,57 +140,35 @@ function toggleMenu(){
     els.forEach(el => io.observe(el));
   })();
 
-  // Back to top functionality
-  (function(){
-    const btn = document.getElementById('backToTop');
-    if(!btn) return;
-    
-    const showAt = 400;
-    
-    function updateBackToTop() {
-      if(window.scrollY > showAt) {
-        btn.classList.add('show');
-      } else {
-        btn.classList.remove('show');
-      }
-    }
-    
-    window.addEventListener('scroll', updateBackToTop, { passive: true });
-    
-    btn.addEventListener('click', () => {
-      window.scrollTo({ 
-        top: 0, 
-        behavior: 'smooth' 
-      });
-    });
-    
-    updateBackToTop(); // Initial call
-  })();
-
   // Smooth scrolling for navigation links
   (function() {
     const navLinks = document.querySelectorAll('a[href^="#"]');
-    
+
     navLinks.forEach(link => {
       link.addEventListener('click', (e) => {
-        e.preventDefault();
         const targetId = link.getAttribute('href');
+        if(!targetId || targetId === '#'){
+          return;
+        }
+
         const targetElement = document.querySelector(targetId);
-        
-        if (targetElement) {
-          const headerHeight = document.querySelector('.site-header').offsetHeight;
-          const targetPosition = targetElement.offsetTop - headerHeight - 20;
-          
-          window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-          });
-          
-          // Close mobile menu if open
-          const nav = document.getElementById('nav');
-          if (nav.classList.contains('open')) {
-            toggleMenu();
-          }
+        if (!targetElement) {
+          return;
+        }
+
+        e.preventDefault();
+        const headerHeight = siteHeader ? siteHeader.offsetHeight : 0;
+        const targetPosition = Math.max(targetElement.offsetTop - headerHeight - 20, 0);
+
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+
+        // Close mobile menu if open
+        const nav = document.getElementById('nav');
+        if (nav && nav.classList.contains('open')) {
+          toggleMenu();
         }
       });
     });
@@ -192,69 +178,130 @@ function toggleMenu(){
   (function() {
     const form = document.getElementById('contactForm');
     if (!form) return;
-    
-    const inputs = form.querySelectorAll('input, textarea');
-    
-    // Add focus effects
-    inputs.forEach(input => {
+
+    const fields = Array.from(form.querySelectorAll('input, textarea'));
+    const status = document.getElementById('formMsg');
+
+    const getContainer = (input) => input.closest('.form-field');
+    const getErrorEl = (input) => getContainer(input)?.querySelector('.field-error');
+
+    function setFocused(input, isFocused){
+      const container = getContainer(input);
+      if(container){
+        container.classList.toggle('focused', isFocused);
+      }
+    }
+
+    function getErrorMessage(input){
+      if(input.validity.valueMissing){
+        if(input.name === 'message') return 'Please enter your message.';
+        if(input.name === 'email') return 'Please enter your email address.';
+        return 'Please enter your name.';
+      }
+      if(input.validity.typeMismatch){
+        return 'Please enter a valid email address.';
+      }
+      return 'Please correct this field.';
+    }
+
+    function updateFieldState(input){
+      const errorEl = getErrorEl(input);
+      if(!errorEl) return;
+
+      if(input.checkValidity()){
+        input.classList.remove('invalid');
+        input.classList.add('valid');
+        errorEl.textContent = '';
+        errorEl.removeAttribute('data-visible');
+      }else{
+        input.classList.remove('valid');
+        input.classList.add('invalid');
+        errorEl.textContent = getErrorMessage(input);
+        errorEl.setAttribute('data-visible', 'true');
+      }
+    }
+
+    function resetStatus(){
+      if(!status) return;
+      status.textContent = '';
+      status.classList.remove('error', 'success');
+    }
+
+    fields.forEach(input => {
       input.addEventListener('focus', () => {
-        input.parentElement.classList.add('focused');
+        setFocused(input, true);
       });
-      
+
       input.addEventListener('blur', () => {
-        input.parentElement.classList.remove('focused');
+        setFocused(input, false);
+        updateFieldState(input);
+      });
+
+      input.addEventListener('input', () => {
+        updateFieldState(input);
+        if(status && status.classList.contains('error')){
+          resetStatus();
+        }
       });
     });
-    
-    // Form validation with real-time feedback
-    inputs.forEach(input => {
-      input.addEventListener('input', () => {
-        if (input.checkValidity()) {
-          input.classList.remove('invalid');
-          input.classList.add('valid');
-        } else {
-          input.classList.remove('valid');
-          input.classList.add('invalid');
+
+    form.addEventListener('invalid', (event) => {
+      event.preventDefault();
+      const field = event.target;
+      updateFieldState(field);
+      if(status){
+        status.textContent = 'Please correct the highlighted fields.';
+        status.classList.add('error');
+        status.classList.remove('success');
+      }
+    }, true);
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      if(!form.checkValidity()){
+        fields.forEach(updateFieldState);
+        if(status){
+          status.textContent = 'Please correct the highlighted fields.';
+          status.classList.add('error');
+          status.classList.remove('success');
+        }
+        return;
+      }
+
+      const name = form.elements['name'].value.trim();
+      const email = form.elements['email'].value.trim();
+      const message = form.elements['message'].value.trim();
+
+      const subject = `Portfolio message from ${name}`;
+      const body = `From: ${name} <${email}>\n\n${message}`;
+
+      const mailto = `mailto:nnagar@uwaterloo.ca?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+      window.location.href = mailto;
+
+      if(status){
+        resetStatus();
+        status.textContent = 'Opening your email app…';
+        status.classList.add('success');
+      }
+      showToast('Opening your email app…');
+
+      form.reset();
+      fields.forEach(input => {
+        input.classList.remove('valid', 'invalid');
+        const container = getContainer(input);
+        if(container){
+          container.classList.remove('focused');
+        }
+        const errorEl = getErrorEl(input);
+        if(errorEl){
+          errorEl.textContent = '';
+          errorEl.removeAttribute('data-visible');
         }
       });
     });
   })();
-
-  // Contact form -> mailto (no backend)
-  document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('contactForm');
-    if (!form) return;
-  
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-  
-      const name = form.elements['name'].value.trim();
-      const email = form.elements['email'].value.trim();
-      const message = form.elements['message'].value.trim();
-  
-      if (!name || !email || !message) {
-        showToast('Please complete all fields.');
-        return;
-      }
-  
-      const subject = `Portfolio message from ${name}`;
-      const body = `From: ${name} <${email}>\n\n${message}`;
-  
-      const mailto = `mailto:nnagar@uwaterloo.ca?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  
-      // Open the user's email client
-      window.location.href = mailto;
-  
-      // Nice little confirmation + reset
-      showToast('Opening your email app…');
-      form.reset();
-      
-      // Remove validation classes
-      form.querySelectorAll('input, textarea').forEach(input => {
-        input.classList.remove('valid', 'invalid');
-      });
-    });
-  });
   
   // Enhanced toast notifications
   function showToast(text, type = 'info'){
@@ -328,29 +375,21 @@ function toggleMenu(){
       }
     }
   }
-  
+
+  function applyScrollState(){
+    if(siteHeader){
+      siteHeader.classList.toggle('scrolled', window.scrollY > 100);
+    }
+    if(backToTopButton){
+      backToTopButton.classList.toggle('show', window.scrollY > 400);
+    }
+  }
+
   // Apply throttling to scroll events
-  const throttledScrollHandler = throttle(() => {
-    // Update header effects
-    const header = document.querySelector('.site-header');
-    if (window.scrollY > 100) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
-    
-    // Update back to top button
-    const backToTop = document.getElementById('backToTop');
-    if (backToTop) {
-      if (window.scrollY > 400) {
-        backToTop.classList.add('show');
-      } else {
-        backToTop.classList.remove('show');
-      }
-    }
-  }, 16); // ~60fps
-  
+  const throttledScrollHandler = throttle(applyScrollState, 100);
+
   window.addEventListener('scroll', throttledScrollHandler, { passive: true });
+  applyScrollState();
   
   // Preload critical images
   (function() {
