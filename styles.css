@@ -740,8 +740,8 @@
   }
   
   /* Logos */
-  .org-logo{height:24px; width:auto; filter: grayscale(20%); opacity:.95; transition: all .3s ease}
-  .org-logo:hover{ filter:none; opacity:1; transform: translateY(-2px) scale(1.1); }
+  .org-logo{height:24px; width:auto; filter: grayscale(20%); opacity:.65; transition: all .2s ease}
+  .org-logo:hover{ filter:none; opacity:1; transform: translateY(-1px) scale(1.00); }
   
   /* Badges */
   .badges{display:flex; flex-wrap:wrap; gap:10px; padding:0; margin:12px 0 0; list-style:none}
@@ -1085,7 +1085,7 @@
     }
     .avatar{ width: 160px; height: 160px; }
     .card{ padding: 18px; border-radius: 14px; }
-    .org-logo{ height: 20px; }
+
     .back-to-top {
       bottom: 80px;
       right: 16px;
@@ -1727,6 +1727,29 @@
 
 /* Tighter logo on mobile so it doesn't “push” the title */
 .org-logo { height: 20px; }
+
+/* Mobile default: small logos */
+.org-logo {
+  height: 42px;
+  width: auto;
+}
+
+/* Bigger logos only on larger screens */
+@media (min-width: 768px) {
+  .org-logo {
+    height: 50px;   /* adjust size as you like */
+  }
+}
+
+@media (min-width: 768px) {
+  .card:hover .org-logo,
+  .org-logo:hover {
+    transform: translateY(-1px) scale(1.02);  /* much smaller */
+    transform-origin: left center;            /* expand left→right, not into the text as much */
+  }
+  .head-left { gap: 16px; }                   /* a bit more breathing room on desktop */
+}
+
 
 /* On small screens, drop the date below the title for clean stacking */
 @media (max-width: 640px) {
