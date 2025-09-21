@@ -520,10 +520,60 @@
   </div>
 </footer>
 
+<!-- Simple visit counter badge -->
+<a href="https://hits.seeyoufarm.com" rel="nofollow noopener" target="_blank" aria-label="Visit counter">
+  <img alt="visits"
+       src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://nnagar.netlify.app/&title=Visits&edge_flat=true" />
+</a>
+
 <!-- Back to top button -->
 <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
 <!-- Keep your existing script.js for theme toggle, mailto form, etc. -->
 <script src="script.js"></script>
+
+<p>
+  <img id="viewBadge" alt="Visits" style="vertical-align:middle" />
+</p>
+
+<script>
+  // Build the badge URL from whatever host you’re on now
+  (function () {
+    var u = encodeURIComponent(location.origin);
+    var src = "https://hits.seeyoufarm.com/api/count/incr/badge.svg"
+            + "?url=" + u
+            + "&title=Visits"
+            + "&edge_flat=true";
+    var img = document.getElementById("viewBadge");
+    if (img) img.src = src;
+  })();
+</script>
+
+<p id="viewBadgeWrap" style="margin:0">
+  <img id="viewBadge" alt="Visits" style="vertical-align:middle" />
+</p>
+<script>
+  (function () {
+    var host = location.hostname;
+    var isLocal = /^(localhost|127\.0\.0\.1|\d+\.\d+\.\d+\.\d+)$/.test(host);
+    var el = document.getElementById('viewBadge');
+    var wrap = document.getElementById('viewBadgeWrap');
+
+    if (!el || !wrap) return;
+
+    if (isLocal) {
+      // hide on local/IP to avoid broken image while developing
+      wrap.style.display = 'none';
+      return;
+    }
+
+    // Use your public URL (must be URL-encoded)
+    var site = encodeURIComponent('https://nnagar.netlify.app/');
+    el.src = 'https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=' + site +
+             '&title=Visits&edge_flat=true';
+  })();
+</script>
+
+
 </body>
 </html>
