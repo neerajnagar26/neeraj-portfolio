@@ -1752,6 +1752,29 @@
 }
 
 
+
+/* --- Experience text layout --- */
+.exp-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.exp-role {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);   /* blue */
+  line-height: 1.3;
+}
+
+.exp-company {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  margin-top: 2px;
+}
+
+
+
 /* ========= Contact form improvements ========= */
 
   /* 1) Make the contact grid a single centered column */
