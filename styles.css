@@ -178,6 +178,9 @@
     background-size:cover; background-position:center;
     overflow: hidden;
   }
+
+
+
   
   .hero::before {
     content: '';
@@ -1691,6 +1694,63 @@
   margin-top: 2px;
 }
 
+/* --- Mobile card/header fixes (Experience + Education) --- */
+
+/* Let the left block shrink and wrap correctly on iOS/Safari */
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;          /* allow wrapping if there isn't room */
+}
+
+.head-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;             /* IMPORTANT for iOS: let this flex item shrink */
+  flex: 1 1 auto;           /* take remaining space, allow shrink */
+}
+
+.card-head h3 {
+  margin: 0;
+  font-size: 18px;          /* slightly smaller on tight widths */
+  line-height: 1.35;
+  word-break: break-word;   /* prevent overflow on long titles */
+  min-width: 0;             /* allow text to wrap instead of pushing the date */
+}
+
+.card-head .date {
+  margin-left: auto;        /* keep to the right on wider screens */
+}
+
+/* Tighter logo on mobile so it doesn't “push” the title */
+.org-logo { height: 20px; }
+
+/* On small screens, drop the date below the title for clean stacking */
+@media (max-width: 640px) {
+  .card { padding: 16px; }
+
+  .card-head {
+    gap: 8px;
+  }
+
+  .head-left {
+    flex-basis: 100%;       /* title row goes full width */
+  }
+
+  .card-head .date {
+    order: 3;               /* place after the title row */
+    margin: 4px 0 0 0;
+    align-self: flex-start; /* align with left edge of card */
+  }
+
+  .card-head h3 {
+    font-size: 17px;
+  }
+}
+
 
 /* ========= Contact form improvements ========= */
 
@@ -1706,6 +1766,13 @@
   width: 100%;
   max-width: 600px;             /* you already set this inline; moving to CSS is cleaner */
   margin: 0 auto;
+}
+
+
+  @media (max-width: 640px) {
+  .hero-inner {
+    padding-top: 20px; /* adjust value until the circle isn’t cut */
+  }
 }
 
 
