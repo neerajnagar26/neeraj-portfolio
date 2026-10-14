@@ -1,84 +1,93 @@
-// Mobile menu toggle
-function toggleMenu(){
-  const nav = document.getElementById('nav');
-  const btn = document.querySelector('.menu');
-  if (!nav || !btn) return;
-  const isOpen = nav.classList.toggle('open');
-  const icon = btn.querySelector('.menu-icon');
-  const label = btn.querySelector('.menu-label');
-  btn.setAttribute('aria-expanded', String(isOpen));
-  btn.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
-  if (icon) icon.textContent = isOpen ? '✕' : '☰';
-  if (label) label.textContent = isOpen ? 'Close menu' : 'Open menu';
-}
-
-const menuButton = document.querySelector('.menu');
-if (menuButton) menuButton.addEventListener('click', toggleMenu);
-
-const siteHeader = document.querySelector('.site-header');
-const backToTopButton = document.getElementById('backToTop');
-if (backToTopButton) backToTopButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-(function(){
+(() => {
   const root = document.documentElement;
-  const btn = document.getElementById('themeToggle');
+  const button = document.getElementById('themeToggle');
+  function setTheme(theme) {
+    root.dataset.theme = theme;
+    if (button) {
+      button.hidden = false;
+      const label = document.getElementById('themeLabel');
+      if (label) label.textContent = theme === 'dark' ? 'Light mode' : 'Dark mode';
+      button.title = `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`;
+      const divider = document.querySelector('.theme-divider');
+      if (divider) divider.hidden = false;
+      button.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
+      button.setAttribute('aria-pressed', String(theme === 'dark'));
+    }
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.content = theme === 'dark' ? '#111113' : '#ffffff';
+  }
   let saved = null;
   try { saved = localStorage.getItem('theme'); } catch (_) {}
-  const initial = saved === 'dark' || saved === 'light' ? saved : 'light';
-  function setTheme(mode){
-    root.setAttribute('data-theme', mode);
-    try { localStorage.setItem('theme', mode); } catch (_) {}
-    if (btn) {
-      btn.textContent = mode === 'dark' ? '☀︎' : '🌙';
-      btn.setAttribute('aria-label', mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
-      btn.setAttribute('aria-pressed', String(mode === 'dark'));
-    }
+  setTheme(saved === 'dark' ? 'dark' : 'light');
+  button?.addEventListener('click', () => {
+    const theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    setTheme(theme);
+    try { localStorage.setItem('theme', theme); } catch (_) {}
+  });
+  const year = document.getElementById('year');
+  if (year) year.textContent = new Date().getFullYear();
+})();
+
+
+// Magnify nearby dock controls without changing their links or focus behavior.
+(() => {
+  const dock = document.querySelector('.dock');
+  if (!dock) return;
+  const controls = [...dock.querySelectorAll('.dock-control')];
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
+  let frame = 0;
+  let pointerX = null;
+
+  function reset() {
+    cancelAnimationFrame(frame);
+    frame = 0;
+    pointerX = null;
+    controls.forEach(control => control.style.removeProperty('--dock-size'));
   }
-  setTheme(initial);
-  if (btn) btn.addEventListener('click', () => setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
-  const y = document.getElementById('year');
-  if (y) y.textContent = new Date().getFullYear();
-})();
 
-(function(){
-  const els = [...document.querySelectorAll('[data-reveal], .card, .edu-item, .section h2')];
-  if (!('IntersectionObserver' in window)) { els.forEach(el => el.classList.add('in')); return; }
-  const io = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('in');
-      observer.unobserve(entry.target);
+  function magnify(distances) {
+    if (reducedMotion.matches || !finePointer.matches) return reset();
+    // Keep the animated dock inside the screen even on a narrow viewport.
+    const growth = Math.min(16, Math.max(0, (innerWidth - 296) / 3));
+    controls.forEach((control, index) => {
+      const proximity = Math.max(0, 1 - Math.abs(distances[index]) / 120);
+      control.style.setProperty('--dock-size', `${44 + growth * proximity ** 2}px`);
     });
-  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
-  els.forEach(el => io.observe(el));
-})();
+  }
 
-(function(){
-  document.querySelectorAll('a[href^="#"]').forEach(link => link.addEventListener('click', e => {
-    const targetId = link.getAttribute('href');
-    if (!targetId || targetId === '#') return;
-    const target = document.querySelector(targetId);
-    if (!target) return;
-    e.preventDefault();
-    const headerHeight = siteHeader ? siteHeader.offsetHeight : 0;
-    window.scrollTo({ top: Math.max(target.getBoundingClientRect().top + window.scrollY - headerHeight - 20, 0), behavior: 'smooth' });
-    const nav = document.getElementById('nav');
-    if (nav && nav.classList.contains('open')) toggleMenu();
-  }));
-})();
+  dock.addEventListener('pointermove', event => {
+    if (event.pointerType === 'touch') return reset();
+    pointerX = event.clientX;
+    if (frame) return;
+    frame = requestAnimationFrame(() => {
+      frame = 0;
+      magnify(controls.map(control => {
+        const rect = control.getBoundingClientRect();
+        return pointerX - rect.left - rect.width / 2;
+      }));
+    });
+  });
 
-function throttle(func, limit) {
-  let inThrottle = false;
-  return function(...args) {
-    if (inThrottle) return;
-    func.apply(this, args);
-    inThrottle = true;
-    setTimeout(() => { inThrottle = false; }, limit);
-  };
-}
-function applyScrollState(){
-  if (siteHeader) siteHeader.classList.toggle('scrolled', window.scrollY > 100);
-  if (backToTopButton) backToTopButton.classList.toggle('show', window.scrollY > 400);
-}
-window.addEventListener('scroll', throttle(applyScrollState, 100), { passive: true });
-applyScrollState();
+  dock.addEventListener('pointerleave', () => {
+    reset();
+    const focused = controls.indexOf(document.activeElement);
+    if (focused >= 0 && document.activeElement.matches(':focus-visible')) {
+      magnify(controls.map((_, index) => (index - focused) * 50));
+    }
+  });
+
+  dock.addEventListener('focusin', event => {
+    const focused = controls.indexOf(event.target);
+    if (focused >= 0 && event.target.matches(':focus-visible')) {
+      magnify(controls.map((_, index) => (index - focused) * 50));
+    }
+  });
+  dock.addEventListener('focusout', event => {
+    if (!dock.contains(event.relatedTarget)) reset();
+  });
+  reducedMotion.addEventListener('change', reset);
+  finePointer.addEventListener('change', reset);
+  window.addEventListener('resize', reset);
+  window.addEventListener('blur', reset);
+})();
