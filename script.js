@@ -38,18 +38,20 @@
   const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
   let frame = 0;
   let pointerX = null;
+  let pointerY = null;
 
   function reset() {
     cancelAnimationFrame(frame);
     frame = 0;
     pointerX = null;
+    pointerY = null;
     controls.forEach(control => control.style.removeProperty('--dock-size'));
   }
 
   function magnify(distances) {
     if (reducedMotion.matches || !finePointer.matches) return reset();
     // Keep the animated dock inside the screen even on a narrow viewport.
-    const growth = Math.min(16, Math.max(0, (innerWidth - 296) / 3));
+    const growth = Math.min(16, Math.max(0, (innerWidth - (innerWidth <= 480 ? 280 : 440)) / 3));
     controls.forEach((control, index) => {
       const proximity = Math.max(0, 1 - Math.abs(distances[index]) / 120);
       control.style.setProperty('--dock-size', `${44 + growth * proximity ** 2}px`);
@@ -59,12 +61,13 @@
   dock.addEventListener('pointermove', event => {
     if (event.pointerType === 'touch') return reset();
     pointerX = event.clientX;
+    pointerY = event.clientY;
     if (frame) return;
     frame = requestAnimationFrame(() => {
       frame = 0;
       magnify(controls.map(control => {
         const rect = control.getBoundingClientRect();
-        return pointerX - rect.left - rect.width / 2;
+        return Math.hypot(pointerX - rect.left - rect.width / 2, pointerY - rect.top - rect.height / 2);
       }));
     });
   });
@@ -73,14 +76,22 @@
     reset();
     const focused = controls.indexOf(document.activeElement);
     if (focused >= 0 && document.activeElement.matches(':focus-visible')) {
-      magnify(controls.map((_, index) => (index - focused) * 50));
+      const activeRect = controls[focused].getBoundingClientRect();
+      magnify(controls.map(control => {
+        const rect = control.getBoundingClientRect();
+        return Math.hypot(rect.left + rect.width / 2 - activeRect.left - activeRect.width / 2, rect.top + rect.height / 2 - activeRect.top - activeRect.height / 2);
+      }));
     }
   });
 
   dock.addEventListener('focusin', event => {
     const focused = controls.indexOf(event.target);
     if (focused >= 0 && event.target.matches(':focus-visible')) {
-      magnify(controls.map((_, index) => (index - focused) * 50));
+      const activeRect = controls[focused].getBoundingClientRect();
+      magnify(controls.map(control => {
+        const rect = control.getBoundingClientRect();
+        return Math.hypot(rect.left + rect.width / 2 - activeRect.left - activeRect.width / 2, rect.top + rect.height / 2 - activeRect.top - activeRect.height / 2);
+      }));
     }
   });
   dock.addEventListener('focusout', event => {

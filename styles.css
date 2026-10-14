@@ -299,14 +299,14 @@ section {
 }
 
 .publications li {
-  padding:12px 0;
+  padding:18px;
 }
 
 .publications li:first-child {
-  padding-top:0;
+  padding-top:18px;
 }
 
-.publications h3,.patents h3 {
+.patents h3 {
   font-size:13px;
   letter-spacing:0;
   line-height:1.6;
@@ -319,6 +319,26 @@ section {
 
 .publications a {
   font-size:12px;
+  margin-top:auto;
+  align-self:flex-start;
+}
+
+.publications .meta {
+  margin-bottom:14px;
+}
+
+.organization-link {
+  text-decoration:none;
+}
+
+.organization-link:hover {
+  text-decoration:underline;
+}
+
+.dock-group {
+  display:flex;
+  align-items:flex-end;
+  gap:2px;
 }
 
 .patents li {
@@ -524,6 +544,21 @@ footer a {
   }
 }
 
+@media(max-width:480px) {
+  .dock {
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+    border-radius:24px;
+  }
+  .section-divider {
+    display:none;
+  }
+  .page {
+    padding-bottom:calc(180px + env(safe-area-inset-bottom,0px));
+  }
+}
+
 @media(prefers-reduced-motion:reduce) {
   .dock-control,.dock-control svg {
     transition:none;
@@ -540,4 +575,10 @@ footer a {
   .dock-control svg {
     color:ButtonText;
   }
+}
+
+.publications h3 {
+  font-size:15px;
+  font-weight:700;
+  line-height:1.4;
 }
