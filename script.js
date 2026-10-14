@@ -124,3 +124,16 @@
     button.addEventListener('click', () => setExpanded(job.dataset.expanded !== 'true'));
   });
 })();
+
+
+(() => {
+  const hand = document.querySelector('.wave');
+  if (!hand) return;
+  hand.addEventListener('click', () => {
+    hand.classList.remove('is-waving');
+    // Restart the brief greeting when clicked again.
+    void hand.offsetWidth;
+    hand.classList.add('is-waving');
+  });
+  hand.addEventListener('animationend', () => hand.classList.remove('is-waving'));
+})();
