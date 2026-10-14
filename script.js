@@ -102,3 +102,25 @@
   window.addEventListener('resize', reset);
   window.addEventListener('blur', reset);
 })();
+
+
+// Each job expands independently; company links remain separate from the button.
+(() => {
+  document.querySelectorAll('.job').forEach(job => {
+    const button = job.querySelector('.job-toggle');
+    const panel = job.querySelector('.job-details');
+    if (!button || !panel) return;
+    function setExpanded(expanded) {
+      job.dataset.expanded = String(expanded);
+      button.setAttribute('aria-expanded', String(expanded));
+      button.setAttribute('aria-label', `${expanded ? 'Collapse' : 'Expand'} ${button.dataset.jobLabel}`);
+      button.title = expanded ? 'Hide job description' : 'Show full job description';
+      panel.setAttribute('aria-hidden', String(!expanded));
+      panel.inert = !expanded;
+    }
+    setExpanded(false);
+    job.classList.add('is-collapsible');
+    button.hidden = false;
+    button.addEventListener('click', () => setExpanded(job.dataset.expanded !== 'true'));
+  });
+})();
