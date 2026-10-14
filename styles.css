@@ -298,35 +298,67 @@ section {
   padding:0;
 }
 
+#research .feature-heading h2 {
+  font-size:30px;
+}
+.research-group-heading {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:14px;
+  font-weight:600;
+  letter-spacing:0;
+  margin:28px 0 14px;
+}
+.research-group-heading span {
+  color:var(--muted);
+  font-size:12px;
+  font-weight:400;
+  font-variant-numeric:tabular-nums;
+}
 .publications li {
-  padding:18px;
+  padding:20px;
+  background:var(--bg);
 }
-
-.publications li:first-child {
-  padding-top:18px;
+.publications .meta {
+  margin:0 0 14px;
+  font-size:12px;
 }
-
+.publications .description {
+  margin-bottom:20px;
+}
+.publications .paper-link {
+  align-self:flex-start;
+  margin-top:auto;
+  padding:6px 10px;
+  border:1px solid var(--border);
+  border-radius:6px;
+  font-size:12px;
+  text-decoration:none;
+}
+.publications .paper-link:hover {
+  background:var(--hover);
+  color:var(--text);
+}
+.paper-detail {
+  font-size:11px;
+  color:var(--muted);
+  margin:auto 0 0;
+}
+.patents-heading {
+  margin-top:28px;
+}
+.patents {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
 .patents h3 {
   font-size:13px;
+  font-weight:500;
   letter-spacing:0;
   line-height:1.6;
-  font-weight:500;
 }
-
-.publications .meta {
-  margin:4px 0 6px;
-}
-
-.publications a {
-  font-size:12px;
-  margin-top:auto;
-  align-self:flex-start;
-}
-
-.publications .meta {
-  margin-bottom:14px;
-}
-
 .organization-link {
   text-decoration:none;
 }
@@ -343,14 +375,17 @@ section {
 
 .patents li {
   display:flex;
-  align-items:baseline;
-  justify-content:space-between;
-  gap:18px;
-  padding:8px 0;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:12px;
+  padding:16px;
+  border:1px solid var(--border);
+  border-radius:10px;
 }
-
 .patents .meta {
-  flex-shrink:0;
+  margin-top:auto;
+  font-size:11px;
+  font-variant-numeric:tabular-nums;
 }
 
 #contact {
@@ -493,7 +528,7 @@ footer a {
     width:80px;
     height:80px;
   }
-  .project-grid {
+  .project-grid,.patents {
     grid-template-columns:1fr;
   }
   .entry-heading {
@@ -510,8 +545,8 @@ footer a {
   .feature-heading h2,#contact h2 {
     font-size:29px;
   }
-  .patents li {
-    align-items:flex-start;
+  #research .feature-heading h2 {
+    font-size:27px;
   }
   .dock {
     bottom:calc(12px + env(safe-area-inset-bottom,0px));
@@ -578,6 +613,7 @@ footer a {
 }
 
 .publications h3 {
+  min-height:4.2em;
   font-size:15px;
   font-weight:700;
   line-height:1.4;
@@ -652,4 +688,8 @@ footer a {
 }
 @media(prefers-reduced-motion:reduce) {
   .job,.job-toggle,.job-toggle svg,.job-details,.job-details-inner { transition:none; }
+}
+
+@media(max-width:600px) {
+  .publications h3 { min-height:0; }
 }
