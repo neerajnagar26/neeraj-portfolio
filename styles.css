@@ -466,11 +466,6 @@ section {
   justify-content:center;
 }
 
-.phone {
-  display:inline-block;
-  margin-top:18px;
-}
-
 footer {
   display:flex;
   justify-content:space-between;
