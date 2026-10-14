@@ -24,6 +24,7 @@ html[data-theme=dark] {
 
 html {
   scroll-padding-top:24px;
+  scroll-padding-bottom:var(--dock-clearance,100px);
 }
 
 body {
@@ -643,6 +644,9 @@ footer a {
 }
 
 @media(max-width:480px) {
+  html {
+    scroll-padding-bottom:var(--dock-clearance,160px);
+  }
   .dock {
     flex-direction:column;
     align-items:center;

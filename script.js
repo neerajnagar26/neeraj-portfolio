@@ -137,3 +137,42 @@
   });
   hand.addEventListener('animationend', () => hand.classList.remove('is-waving'));
 })();
+
+// Keep keyboard focus clear of the fixed dock, including its mobile second row.
+(() => {
+  const dock = document.querySelector('.dock');
+  const page = document.querySelector('.page');
+  if (!dock || !page) return;
+  let frame = 0;
+
+  function updateClearance() {
+    frame = 0;
+    const bar = dock.getBoundingClientRect();
+    const gap = 16;
+    document.documentElement.style.setProperty(
+      '--dock-clearance', `${Math.ceil(innerHeight - bar.top + gap)}px`
+    );
+    const focused = document.activeElement;
+    if (!page.contains(focused) || !focused.matches(':focus-visible')) return;
+    const bounds = focused.getBoundingClientRect();
+    const safeBottom = bar.top - gap;
+    if (bounds.bottom > safeBottom && bounds.top < bar.bottom) {
+      window.scrollBy({ top: bounds.bottom - safeBottom, behavior: 'auto' });
+    }
+  }
+
+  function scheduleUpdate() {
+    if (!frame) frame = requestAnimationFrame(updateClearance);
+  }
+
+  // Wait until native focus scrolling has completed before correcting overlap.
+  document.addEventListener('focusin', scheduleUpdate);
+  window.addEventListener('resize', scheduleUpdate);
+  window.visualViewport?.addEventListener('resize', scheduleUpdate);
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(scheduleUpdate).observe(dock);
+  } else {
+    dock.addEventListener('transitionend', scheduleUpdate);
+  }
+  scheduleUpdate();
+})();
