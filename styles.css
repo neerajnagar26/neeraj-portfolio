@@ -259,7 +259,11 @@ section {
 }
 
 .org-logo-iitbhu {
-  padding:10px;
+  padding:2px;
+}
+
+.org-logo-uwaterloo,.org-logo-samsung {
+  padding:0;
 }
 
 .entry-body {
