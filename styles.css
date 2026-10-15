@@ -134,8 +134,8 @@ section {
 .location svg { flex-shrink:0; }
 .avatar {
   position:relative;
-  width:160px;
-  height:160px;
+  width:192px;
+  height:192px;
   flex-shrink:0;
   border-radius:50%;
   border:1px solid var(--border);
@@ -601,8 +601,8 @@ footer a {
     font-size:16px;
   }
   .avatar {
-    width:128px;
-    height:128px;
+    width:152px;
+    height:152px;
   }
   .project-grid,.patents {
     grid-template-columns:1fr;
@@ -641,8 +641,8 @@ footer a {
     gap:12px;
   }
   .avatar {
-    width:112px;
-    height:112px;
+    width:128px;
+    height:128px;
   }
   .intro-description {
     font-size:15px;
