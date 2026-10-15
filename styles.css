@@ -215,6 +215,12 @@ section {
 }
 .profile-link svg { flex-shrink:0; }
 
+@media(min-width:601px) {
+  .intro .profile-link {
+    padding-inline:8px;
+  }
+}
+
 .intro .profile-links {
   margin-top:16px;
 }
