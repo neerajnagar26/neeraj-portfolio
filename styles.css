@@ -258,6 +258,10 @@ section {
   padding:5px;
 }
 
+.org-logo-iitbhu {
+  padding:10px;
+}
+
 .entry-body {
   flex:1;
   min-width:0;
