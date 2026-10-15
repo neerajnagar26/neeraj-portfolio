@@ -726,6 +726,7 @@ footer a {
 }
 .job .org-logo { margin-left:-1px; }
 .job:first-child { padding-top:12px; }
+.job.is-collapsible { cursor:pointer; }
 .job:hover,.job:focus-within,.job[data-expanded="true"] {
   background:var(--hover);
   border-color:var(--border);

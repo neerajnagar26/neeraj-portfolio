@@ -104,7 +104,7 @@
 })();
 
 
-// Each job expands independently; company links remain separate from the button.
+// Each job expands independently from either its row or disclosure button.
 (() => {
   document.querySelectorAll('.job').forEach(job => {
     const button = job.querySelector('.job-toggle');
@@ -121,6 +121,10 @@
     setExpanded(false);
     job.classList.add('is-collapsible');
     button.hidden = false;
+    job.addEventListener('click', event => {
+      if (event.target.closest('a,button')) return;
+      setExpanded(job.dataset.expanded !== 'true');
+    });
     button.addEventListener('click', () => setExpanded(job.dataset.expanded !== 'true'));
   });
 })();
