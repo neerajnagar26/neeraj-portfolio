@@ -116,6 +116,10 @@ section {
 .intro>div {
   flex:1;
   min-width:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  min-height:240px;
 }
 
 .intro-description {
@@ -211,8 +215,8 @@ section {
 }
 .profile-link svg { flex-shrink:0; }
 
-.intro+.profile-links {
-  margin-bottom:20px;
+.intro .profile-links {
+  margin-top:16px;
 }
 
 .about-copy {
@@ -611,6 +615,11 @@ footer a {
     grid-column:1;
     grid-row:1;
     margin:0;
+  }
+  .intro .profile-links {
+    grid-column:1 / -1;
+    grid-row:4;
+    margin-top:0;
   }
   .intro-description {
     grid-column:1 / -1;
