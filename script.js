@@ -33,7 +33,7 @@
 })();
 
 
-// Magnify nearby dock controls without changing their links or focus behavior.
+// Magnify nearby dock controls without layout reflow while the pointer moves.
 (() => {
   const dock = document.querySelector('.dock');
   if (!dock) return;
@@ -43,22 +43,34 @@
   let frame = 0;
   let pointerX = null;
   let pointerY = null;
+  let centers = null;
 
-  function reset() {
+  function reset(settle = false) {
     cancelAnimationFrame(frame);
     frame = 0;
     pointerX = null;
     pointerY = null;
-    controls.forEach(control => control.style.removeProperty('--dock-size'));
+    dock.classList.toggle('dock-settling', settle);
+    controls.forEach(control => control.style.removeProperty('--dock-scale'));
   }
 
-  function magnify(distances) {
+  function measureCenters() {
+    centers = controls.map(control => {
+      const rect = control.getBoundingClientRect();
+      return { x:rect.left + rect.width / 2, y:rect.top + rect.height / 2 };
+    });
+  }
+
+  function magnify(x, y) {
     if (reducedMotion.matches || !finePointer.matches) return reset();
-    // Keep the animated dock inside the screen even on a narrow viewport.
+    if (!centers) measureCenters();
+    dock.classList.remove('dock-settling');
     const growth = Math.min(22, Math.max(0, (innerWidth - 440) / 3));
     controls.forEach((control, index) => {
-      const proximity = Math.max(0, 1 - Math.abs(distances[index]) / 120);
-      control.style.setProperty('--dock-size', `${44 + growth * proximity ** 2}px`);
+      const distance = Math.hypot(x - centers[index].x, y - centers[index].y);
+      const proximity = Math.max(0, 1 - distance / 120);
+      const scale = 1 + (growth / 44) * proximity ** 2;
+      control.style.setProperty('--dock-scale', scale.toFixed(3));
     });
   }
 
@@ -66,47 +78,38 @@
     if (event.pointerType === 'touch') return reset();
     pointerX = event.clientX;
     pointerY = event.clientY;
+    dock.classList.remove('dock-settling');
     if (frame) return;
     frame = requestAnimationFrame(() => {
       frame = 0;
-      magnify(controls.map(control => {
-        const rect = control.getBoundingClientRect();
-        return Math.hypot(pointerX - rect.left - rect.width / 2, pointerY - rect.top - rect.height / 2);
-      }));
+      magnify(pointerX, pointerY);
     });
   });
 
   dock.addEventListener('pointerleave', () => {
-    reset();
+    reset(true);
     const focused = controls.indexOf(document.activeElement);
     if (focused >= 0 && document.activeElement.matches(':focus-visible')) {
-      const activeRect = controls[focused].getBoundingClientRect();
-      magnify(controls.map(control => {
-        const rect = control.getBoundingClientRect();
-        return Math.hypot(rect.left + rect.width / 2 - activeRect.left - activeRect.width / 2, rect.top + rect.height / 2 - activeRect.top - activeRect.height / 2);
-      }));
+      if (!centers) measureCenters();
+      magnify(centers[focused].x, centers[focused].y);
     }
   });
 
   dock.addEventListener('focusin', event => {
     const focused = controls.indexOf(event.target);
     if (focused >= 0 && event.target.matches(':focus-visible')) {
-      const activeRect = controls[focused].getBoundingClientRect();
-      magnify(controls.map(control => {
-        const rect = control.getBoundingClientRect();
-        return Math.hypot(rect.left + rect.width / 2 - activeRect.left - activeRect.width / 2, rect.top + rect.height / 2 - activeRect.top - activeRect.height / 2);
-      }));
+      if (!centers) measureCenters();
+      magnify(centers[focused].x, centers[focused].y);
     }
   });
   dock.addEventListener('focusout', event => {
     if (!dock.contains(event.relatedTarget)) reset();
   });
-  reducedMotion.addEventListener('change', reset);
-  finePointer.addEventListener('change', reset);
-  window.addEventListener('resize', reset);
-  window.addEventListener('blur', reset);
+  reducedMotion.addEventListener('change', () => reset());
+  finePointer.addEventListener('change', () => { centers = null; reset(); });
+  window.addEventListener('resize', () => { centers = null; reset(); });
+  window.addEventListener('blur', () => reset());
 })();
-
 
 // On mobile, tuck the fixed dock away while the page is actively scrolling.
 (() => {
