@@ -647,6 +647,9 @@ footer a {
   html {
     scroll-padding-bottom:var(--dock-clearance,100px);
   }
+  .dock-socials>a,.theme-divider {
+    display:none;
+  }
   .dock {
     flex-direction:row;
     align-items:center;
