@@ -717,9 +717,10 @@ footer a {
 .job {
   border:1px solid transparent;
   border-radius:12px;
-  padding:12px;
+  padding:12px 12px 12px 0;
   transition:background-color .2s ease,border-color .2s ease;
 }
+.job .org-logo { margin-left:-1px; }
 .job:first-child { padding-top:12px; }
 .job:hover,.job:focus-within,.job[data-expanded="true"] {
   background:var(--hover);
