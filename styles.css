@@ -653,12 +653,11 @@ footer a {
   .dock {
     flex-direction:row;
     align-items:center;
-    justify-content:space-between;
-    width:calc(100vw - 8px);
+    justify-content:center;
+    width:max-content;
+    max-width:calc(100vw - 16px);
     gap:0;
     padding:4px 6px;
-    overflow-x:auto;
-    overscroll-behavior-x:contain;
     border-radius:999px;
   }
   .dock-group {
