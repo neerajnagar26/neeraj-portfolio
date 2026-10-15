@@ -7,6 +7,10 @@
       button.hidden = false;
       const label = document.getElementById('themeLabel');
       if (label) label.textContent = theme === 'dark' ? 'Light mode' : 'Dark mode';
+      const sun = button.querySelector('.theme-icon-sun');
+      const moon = button.querySelector('.theme-icon-moon');
+      if (sun) sun.hidden = theme === 'dark';
+      if (moon) moon.hidden = theme !== 'dark';
       button.title = `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`;
       const divider = document.querySelector('.theme-divider');
       if (divider) divider.hidden = false;

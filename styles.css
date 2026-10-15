@@ -18,9 +18,8 @@ html[data-theme=dark] {
   --dock:rgba(22,22,22,.96);
 }
 
-.theme-icon-moon { display:none; }
-html[data-theme=dark] .theme-icon-sun { display:none; }
-html[data-theme=dark] .theme-icon-moon { display:block; }
+.theme-icon-sun[hidden],.theme-icon-moon[hidden] { display:none; }
+.theme-icon-sun:not([hidden]),.theme-icon-moon:not([hidden]) { display:block; }
 
 * {
   box-sizing:border-box;
@@ -134,8 +133,8 @@ section {
 .location svg { flex-shrink:0; }
 .avatar {
   position:relative;
-  width:192px;
-  height:192px;
+  width:240px;
+  height:240px;
   flex-shrink:0;
   border-radius:50%;
   border:1px solid var(--border);
@@ -601,8 +600,8 @@ footer a {
     font-size:16px;
   }
   .avatar {
-    width:152px;
-    height:152px;
+    width:176px;
+    height:176px;
   }
   .project-grid,.patents {
     grid-template-columns:1fr;
@@ -641,8 +640,8 @@ footer a {
     gap:12px;
   }
   .avatar {
-    width:128px;
-    height:128px;
+    width:144px;
+    height:144px;
   }
   .intro-description {
     font-size:15px;
