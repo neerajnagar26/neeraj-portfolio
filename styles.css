@@ -18,8 +18,12 @@ html[data-theme=dark] {
   --dock:rgba(22,22,22,.96);
 }
 
-.theme-icon-sun[hidden],.theme-icon-moon[hidden] { display:none; }
+.theme-icon-moon,.theme-icon-sun[hidden],.theme-icon-moon[hidden] { display:none; }
 .theme-icon-sun:not([hidden]),.theme-icon-moon:not([hidden]) { display:block; }
+html[data-theme=dark] .theme-icon-sun:not([hidden]) { display:none; }
+html[data-theme=dark] .theme-icon-moon:not([hidden]) { display:block; }
+html[data-theme=light] .theme-icon-sun:not([hidden]) { display:block; }
+html[data-theme=light] .theme-icon-moon:not([hidden]) { display:none; }
 
 * {
   box-sizing:border-box;
