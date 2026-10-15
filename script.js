@@ -39,7 +39,7 @@
   if (!dock) return;
   const controls = [...dock.querySelectorAll('.dock-control')];
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
+  const finePointer = matchMedia('(min-width: 601px) and (hover: hover) and (pointer: fine)');
   let frame = 0;
   let pointerX = null;
   let pointerY = null;
@@ -55,7 +55,7 @@
   function magnify(distances) {
     if (reducedMotion.matches || !finePointer.matches) return reset();
     // Keep the animated dock inside the screen even on a narrow viewport.
-    const growth = Math.min(16, Math.max(0, (innerWidth - (innerWidth <= 480 ? 280 : 440)) / 3));
+    const growth = Math.min(22, Math.max(0, (innerWidth - 440) / 3));
     controls.forEach((control, index) => {
       const proximity = Math.max(0, 1 - Math.abs(distances[index]) / 120);
       control.style.setProperty('--dock-size', `${44 + growth * proximity ** 2}px`);
@@ -108,6 +108,61 @@
 })();
 
 
+// On mobile, tuck the fixed dock away while the page is actively scrolling.
+(() => {
+  const dock = document.querySelector('.dock');
+  if (!dock) return;
+  const mobile = matchMedia('(max-width: 600px)');
+  let showTimer = 0;
+  let lastScrollAt = 0;
+
+  function clearShowTimer() {
+    if (showTimer) clearTimeout(showTimer);
+    showTimer = 0;
+  }
+
+  function show() {
+    clearShowTimer();
+    dock.classList.remove('dock-hidden');
+  }
+
+  function scheduleShow(delay = 500) {
+    clearShowTimer();
+    showTimer = setTimeout(() => {
+      showTimer = 0;
+      dock.classList.remove('dock-hidden');
+    }, Math.max(0, delay));
+  }
+
+  function onScroll() {
+    if (!mobile.matches) return;
+    lastScrollAt = performance.now();
+    if (dock.contains(document.activeElement) && document.activeElement.matches(':focus-visible')) {
+      show();
+      return;
+    }
+    dock.classList.add('dock-hidden');
+    scheduleShow(500);
+  }
+
+  function onFocusOut(event) {
+    if (!mobile.matches || dock.contains(event.relatedTarget)) return;
+    const remaining = 500 - (performance.now() - lastScrollAt);
+    if (remaining > 0) {
+      dock.classList.add('dock-hidden');
+      scheduleShow(remaining);
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  dock.addEventListener('focusin', show);
+  dock.addEventListener('focusout', onFocusOut);
+  mobile.addEventListener('change', event => {
+    if (!event.matches) show();
+  });
+})();
+
+
 // Each job expands independently from either its row or disclosure button.
 (() => {
   document.querySelectorAll('.job').forEach(job => {
@@ -157,9 +212,11 @@
     frame = 0;
     const bar = dock.getBoundingClientRect();
     const gap = 16;
+    const dockHidden = dock.classList.contains('dock-hidden');
     document.documentElement.style.setProperty(
-      '--dock-clearance', `${Math.ceil(innerHeight - bar.top + gap)}px`
+      '--dock-clearance', dockHidden ? '100px' : `${Math.ceil(innerHeight - bar.top + gap)}px`
     );
+    if (dockHidden) return;
     const focused = document.activeElement;
     if (!page.contains(focused) || !focused.matches(':focus-visible')) return;
     const bounds = focused.getBoundingClientRect();

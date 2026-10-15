@@ -542,7 +542,7 @@ footer a {
   background:transparent;
   color:var(--text);
   text-decoration:none;
-  transition:width .25s cubic-bezier(.2,.8,.2,1.15),height .25s cubic-bezier(.2,.8,.2,1.15),background-color .15s ease;
+  transition:width .16s cubic-bezier(.2,.85,.3,1.4),height .16s cubic-bezier(.2,.85,.3,1.4),background-color .12s ease;
 }
 
 .dock-control:hover {
@@ -555,7 +555,7 @@ footer a {
   width:calc(var(--dock-size,44px) * .455);
   height:calc(var(--dock-size,44px) * .455);
   flex-shrink:0;
-  transition:width .25s cubic-bezier(.2,.8,.2,1.15),height .25s cubic-bezier(.2,.8,.2,1.15);
+  transition:width .16s cubic-bezier(.2,.85,.3,1.4),height .16s cubic-bezier(.2,.85,.3,1.4);
 }
 
 .dock-divider {
@@ -604,8 +604,8 @@ footer a {
     font-size:16px;
   }
   .avatar {
-    width:176px;
-    height:176px;
+    width:136px;
+    height:136px;
   }
   .project-grid,.patents {
     grid-template-columns:1fr;
@@ -629,6 +629,12 @@ footer a {
   }
   .dock {
     bottom:calc(12px + env(safe-area-inset-bottom,0px));
+    transition:transform .32s cubic-bezier(.22,1,.36,1);
+    will-change:transform;
+  }
+  .dock.dock-hidden {
+    transform:translate(-50%,calc(100% + 24px + env(safe-area-inset-bottom,0px)));
+    pointer-events:none;
   }
 }
 
@@ -644,8 +650,8 @@ footer a {
     gap:12px;
   }
   .avatar {
-    width:144px;
-    height:144px;
+    width:112px;
+    height:112px;
   }
   .intro-description {
     font-size:15px;
@@ -700,6 +706,9 @@ footer a {
 }
 
 @media(prefers-reduced-motion:reduce) {
+  .dock {
+    transition:none!important;
+  }
   .dock-control,.dock-control svg {
     transition:none;
   }
